@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tornado : MonoBehaviour
 {
     [Tooltip("Distance after which the rotation physics starts")]
-    public float maxDistance = 20;
+    public float squareMaxDistance = 20;
 
     [Tooltip("The axis that the caught objects will rotate around")]
     public Vector3 rotationAxis = new Vector3(0, 1, 0);
@@ -20,7 +20,12 @@ public class Tornado : MonoBehaviour
     [Tooltip("Tornado pull force")]
     public float tornadoStrength = 2;
 
+    public float rotationAngle;
+
+    public float suckForce;
+
     Rigidbody r;
+    Vector3 pull;
 
     List<Torable> caughtObject = new List<Torable>();
     void Start()
@@ -38,11 +43,12 @@ public class Tornado : MonoBehaviour
         {
             if (caughtObject[i] != null)
             {
-                Vector3 pull = transform.position - caughtObject[i].transform.position;
-                if (pull.magnitude > maxDistance)
+                pull = transform.position - caughtObject[i].transform.position;
+                if (pull.sqrMagnitude > squareMaxDistance)
                 {
-                    caughtObject[i].rb.AddForce(pull.normalized * pull.magnitude, ForceMode.Force);
+                    caughtObject[i].rb.AddForce(pull * suckForce, ForceMode.VelocityChange);
                     caughtObject[i].enabled = false;
+                    print("ok");
                 }
                 else
                 {
@@ -55,6 +61,7 @@ public class Tornado : MonoBehaviour
     {
         if (!other.attachedRigidbody) return;
         if (other.attachedRigidbody.isKinematic) return;
+        if (!other.GetComponent<Torable>()) return;
 
         //Add caught object to the list
         Torable caught = other.GetComponent<Torable>();

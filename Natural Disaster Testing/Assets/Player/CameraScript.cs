@@ -30,8 +30,8 @@ public class CameraScript : MonoBehaviour
 
         currentX += Input.GetAxis("Mouse X") * sensivity * Time.deltaTime;
         currentY += Input.GetAxis("Mouse Y") * sensivity * Time.deltaTime;
-        print(currentX);
-        print(currentY);
+
+       
         currentY = Mathf.Clamp(currentY, YMin, YMax);
 
         Vector3 Direction = new Vector3(0, 0, -distance);

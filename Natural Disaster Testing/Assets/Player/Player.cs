@@ -115,7 +115,7 @@ namespace Player
             targetVelocity = rotation * targetVelocity;
             rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, moveAcceleration );
 
-            print(rb.velocity);
+
 
 
         }

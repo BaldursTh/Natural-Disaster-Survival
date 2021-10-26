@@ -25,11 +25,12 @@ public class Torable : MonoBehaviour
        
         Vector3 projection = Vector3.ProjectOnPlane(direction, tornado.GetRotationAxis());
         projection.Normalize();
-        Vector3 normal = Quaternion.AngleAxis(130, tornado.GetRotationAxis()) * projection;
+        Vector3 normal = Quaternion.AngleAxis(tornado.rotationAngle, tornado.GetRotationAxis()) * projection;
         normal = Quaternion.AngleAxis(tornado.lift, projection) * normal;
-        rb.AddForce(normal * tornado.GetStrength(), ForceMode.Force);
+        
+        rb.AddForce(normal * tornado.GetStrength(), ForceMode.VelocityChange);
 
-        Debug.DrawRay(transform.position, normal * 10, Color.red);
+        
     }
     public void Init(Tornado tornadoRef, Rigidbody tornadoRigidbody, float springForce)
     {
